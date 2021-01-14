@@ -3,6 +3,10 @@
     <h1>Математический тренажер</h1>
     <hr>
     <div class="box">
+      <app-progress-bar
+        :progStyle="progressStyles"
+      >
+      </app-progress-bar>
       <transition name="flip" mode="out-in">
         <app-start-screen
           v-if="state=='start'"
@@ -21,7 +25,11 @@
           :type="message.type"
           @onNext="onNext"
         ></app-message>
-        <app-result-screen v-else-if="state=='results'"></app-result-screen>
+        <app-result-screen
+          v-else-if="state=='result'"
+          :stats="stats"
+          @repeat="onStart"
+        ></app-result-screen>
         <div v-else>Unknown state</div>
       </transition>
     </div>
@@ -41,30 +49,44 @@ export default {
       message: {
         type: '',
         text: ''
-      }
+      },
+      questionMax: 3
     }
   },
   computed: {
     questDone() {
-      return this.state.success + this.stats.error
+      return this.stats.success + this.stats.error
+    },
+    progressStyles () {
+      return {
+        width: Math.round(this.questDone / this.questionMax * 100) + '%'
+      }
     }
   },
   methods: {
     onStart() {
       this.state = 'question'
+      this.stats.success = 0
+      this.stats.error = 0
     },
     onQuestionSuccess() {
       this.state = 'message'
       this.message.text = 'Правильно'
       this.message.type = 'alert-success'
+      this.stats.success++
     },
     onQuestionError(msg) {
       this.state = 'message'
       this.message.text = msg
       this.message.type = 'alert-warning'
+      this.stats.error++
     },
     onNext() {
-      this.state = 'question'
+      if (this.questDone < this.questionMax) {
+        this.state = 'question'
+      } else {
+        this.state = 'result'
+      }
     }
   }
 }
