@@ -1,6 +1,6 @@
 <template>
   <div class="training">
-    <h1>Математический тренажер</h1>
+    <h1>Математический тренажер. Уровень {{level}}</h1>
     <hr>
     <div class="box">
       <app-progress-bar
@@ -15,6 +15,9 @@
         </app-start-screen>
         <app-question
           v-else-if="state=='question'"
+          :min="levels[level-1].min"
+          :max="levels[level-1].max"
+          :variants="levels[level-1].variants"
           @onSuccess="onQuestionSuccess"
           @onError="onQuestionError"
         >
@@ -29,6 +32,7 @@
           v-else-if="state=='result'"
           :stats="stats"
           @repeat="onStart"
+          @nextLevel="nextLevel"
         ></app-result-screen>
         <div v-else>Unknown state</div>
       </transition>
@@ -41,6 +45,13 @@ export default {
   name: 'app',
   data() {
     return {
+      level: 1,
+      levels: [
+        {variants: 4, min: 100, max: 200, maxQuestions: 3},
+        {variants: 5, min: 100, max: 400, maxQuestions: 4},
+        {variants: 6, min: 100, max: 600, maxQuestions: 5},
+        {variants: 7, min: 100, max: 1000, maxQuestions: 6}
+      ],
       state: 'start',
       stats: {
         success: 0,
@@ -49,8 +60,7 @@ export default {
       message: {
         type: '',
         text: ''
-      },
-      questionMax: 3
+      }
     }
   },
   computed: {
@@ -59,7 +69,8 @@ export default {
     },
     progressStyles () {
       return {
-        width: Math.round(this.questDone / this.questionMax * 100) + '%'
+        width: Math.round(this.questDone /
+          this.levels[this.level - 1].maxQuestions * 100) + '%'
       }
     }
   },
@@ -82,10 +93,20 @@ export default {
       this.stats.error++
     },
     onNext() {
-      if (this.questDone < this.questionMax) {
+      if ( this.questDone < this.levels[this.level - 1].maxQuestions ) {
         this.state = 'question'
       } else {
         this.state = 'result'
+      }
+    },
+    nextLevel() {
+      if (this.levels.length > this.level) {
+        this.level += 1
+        this.onStart()
+      } else {
+        this.state = 'message'
+        this.message.text = 'Вы победили мой друг'
+        this.message.type = 'alert-info'
       }
     }
   }

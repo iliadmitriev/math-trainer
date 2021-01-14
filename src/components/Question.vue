@@ -16,10 +16,27 @@
 <script>
 export default {
   name: "Question",
+  props: {
+    min: {
+      type: Number,
+      required: true,
+      default: 100
+    },
+    max: {
+      type: Number,
+      required: true,
+      default: 200
+    },
+    variants: {
+      type: Number,
+      required: true,
+      default: 4
+    }
+  },
   data() {
     return {
-      x: mtRand(100, 200),
-      y: mtRand(100, 200)
+      x: mtRand(this.min, this.max),
+      y: mtRand(this.min, this.max)
     }
   },
   computed: {
@@ -28,7 +45,7 @@ export default {
     },
     answers() {
       const res = [this.rightAnswer]
-      while (res.length < 4) {
+      while (res.length < this.variants) {
         let num = mtRand(this.rightAnswer - 20, this.rightAnswer + 20)
         if (!res.includes(num)) {
           res.push(num)
