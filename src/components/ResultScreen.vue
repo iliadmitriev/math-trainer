@@ -5,7 +5,7 @@
       <h3>Ошибок: {{ stats.error }}</h3>
       <hr>
       <button class="btn btn-primary" @click="$emit('repeat')">Повторить</button>
-      <button v-show="next" class="btn btn-primary" @click="$emit('nextLevel')">Следующий уровень</button>
+      <button :disabled="stats.error != 0" v-show="next" class="btn btn-primary" @click="$emit('nextLevel')">Следующий уровень</button>
     </div>
   </div>
 </template>

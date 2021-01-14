@@ -69,9 +69,11 @@ export default {
     },
     progressStyles () {
       return {
-        width: Math.round(this.questDone /
-          this.levels[this.level - 1].maxQuestions * 100) + '%'
+        width: Math.round(this.questDone / this.maxQuestions * 100) + '%'
       }
+    },
+    maxQuestions() {
+      return this.levels[this.level - 1].maxQuestions
     }
   },
   methods: {
@@ -93,7 +95,7 @@ export default {
       this.stats.error++
     },
     onNext() {
-      if ( this.questDone < this.levels[this.level - 1].maxQuestions ) {
+      if ( this.questDone < this.maxQuestions ) {
         this.state = 'question'
       } else {
         this.state = 'result'
