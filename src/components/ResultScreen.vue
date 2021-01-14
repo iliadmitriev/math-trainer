@@ -1,8 +1,8 @@
 <template>
   <div class="app-result-screen">
     <div class="alert alert-primary">
-      <h3>Правильных: {{stats}}</h3>
-      <h3>Ошибок:</h3>
+      <h3>Правильных: {{stats.success}}</h3>
+      <h3>Ошибок: {{stats.error}}</h3>
       <hr>
       <button class="btn btn-primary" @click="$emit('repeat')">Повторить</button>
       <button class="btn btn-primary" @click="$emit('nextLevel')">Следующий уровень</button>
@@ -13,7 +13,9 @@
 <script>
 export default {
   name: "ResultScreen",
-  prop: ['stats']
+  props: {
+    stats: Object
+  }
 }
 </script>
 
