@@ -50,8 +50,8 @@ export default {
       levels: [
         {variants: 4, min: 100, max: 200, maxQuestions: 3},
         {variants: 5, min: 100, max: 400, maxQuestions: 4},
-        {variants: 6, min: 100, max: 600, maxQuestions: 5},
-        {variants: 7, min: 100, max: 1000, maxQuestions: 6}
+        {variants: 5, min: 100, max: 600, maxQuestions: 5},
+        {variants: 6, min: 100, max: 1000, maxQuestions: 6}
       ],
       state: 'start',
       stats: {
