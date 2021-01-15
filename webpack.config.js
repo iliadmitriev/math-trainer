@@ -1,11 +1,14 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: process.env.NODE_ENV === 'production'
+      ? ''
+      : '/dist/',
     filename: 'build.js'
   },
   module: {
@@ -16,12 +19,11 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ],
-      },      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-          }
+          loaders: {}
           // other vue-loader options go here
         }
       },
@@ -46,14 +48,24 @@ module.exports = {
     extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
+    hot: true,
     historyApiFallback: true,
+    contentBase: path.join(__dirname, 'dist'),
+    openPage: 'dist/',
     noInfo: true,
     overlay: true
   },
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: './index.html',
+      vue: true
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {

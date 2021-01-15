@@ -1,6 +1,7 @@
 <template>
   <div class="training">
-    <h1>Математический тренажер. Уровень {{level}}</h1>
+    <h1>Математический тренажер</h1>
+    <h2>Уровень {{level}}</h2>
     <hr>
     <div class="box">
       <app-progress-bar
