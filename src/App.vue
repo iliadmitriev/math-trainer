@@ -47,9 +47,9 @@ export default {
       level: 1,
       levels: [
         {variants: 4, min: 100, max: 200, maxQuestions: 3, range: 20},
-        {variants: 5, min: 100, max: 400, maxQuestions: 4, range: 40},
-        {variants: 6, min: 100, max: 600, maxQuestions: 5, range: 60},
-        {variants: 7, min: 100, max: 1000, maxQuestions: 6, range: 80}
+        {variants: 5, min: 100, max: 400, maxQuestions: 4, range: 20},
+        {variants: 5, min: 100, max: 600, maxQuestions: 5, range: 20},
+        {variants: 6, min: 100, max: 1000, maxQuestions: 6, range: 20}
       ],
       state: 'start',
       stats: {
