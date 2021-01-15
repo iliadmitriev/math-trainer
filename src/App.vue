@@ -16,9 +16,7 @@
         </app-start-screen>
         <app-question
           v-else-if="state=='question'"
-          :min="levels[level-1].min"
-          :max="levels[level-1].max"
-          :variants="levels[level-1].variants"
+          :level="levels[level-1]"
           @onSuccess="onQuestionSuccess"
           @onError="onQuestionError"
         >
@@ -48,10 +46,10 @@ export default {
     return {
       level: 1,
       levels: [
-        {variants: 4, min: 100, max: 200, maxQuestions: 3},
-        {variants: 5, min: 100, max: 400, maxQuestions: 4},
-        {variants: 5, min: 100, max: 600, maxQuestions: 5},
-        {variants: 6, min: 100, max: 1000, maxQuestions: 6}
+        {variants: 4, min: 100, max: 200, maxQuestions: 3, range: 20},
+        {variants: 5, min: 100, max: 400, maxQuestions: 4, range: 20},
+        {variants: 5, min: 100, max: 600, maxQuestions: 5, range: 20},
+        {variants: 6, min: 100, max: 1000, maxQuestions: 6, range: 20}
       ],
       state: 'start',
       stats: {
@@ -70,10 +68,10 @@ export default {
     },
     progressStyles () {
       return {
-        width: Math.round(this.questDone / this.maxQuestions * 100) + '%'
+        width: Math.round(this.questDone / this.maxLevelQuestions * 100) + '%'
       }
     },
-    maxQuestions() {
+    maxLevelQuestions() {
       return this.levels[this.level - 1].maxQuestions
     }
   },
@@ -96,7 +94,7 @@ export default {
       this.stats.error++
     },
     onNext() {
-      if ( this.questDone < this.maxQuestions ) {
+      if ( this.questDone < this.maxLevelQuestions ) {
         this.state = 'question'
       } else {
         this.state = 'result'

@@ -7,7 +7,8 @@
         <button class="btn btn-success"
                 v-for="number in answers"
                 @click="onAnswer(number)"
-        >{{number}}</button>
+        >{{ number }}
+        </button>
       </div>
     </div>
   </div>
@@ -17,26 +18,24 @@
 export default {
   name: "Question",
   props: {
-    min: {
-      type: Number,
-      required: true,
-      default: 100
-    },
-    max: {
-      type: Number,
-      required: true,
-      default: 200
-    },
-    variants: {
-      type: Number,
-      required: true,
-      default: 4
+    level: {
+      type: Object,
+      validator: value => (
+          value
+          && value.min > 0
+          && value.max > 0
+          && value.max > value.min
+          && value.range > 0
+          && value.range <= (value.max - value.min) / 2
+          && value.variants >= 4
+        ),
+      required: true
     }
   },
   data() {
     return {
-      x: mtRand(this.min, this.max),
-      y: mtRand(this.min, this.max)
+      x: mtRand(this.level.min, this.level.max),
+      y: mtRand(this.level.min, this.level.max)
     }
   },
   computed: {
@@ -45,14 +44,14 @@ export default {
     },
     answers() {
       const res = [this.rightAnswer]
-      while (res.length < this.variants) {
-        let num = mtRand(this.rightAnswer - 20, this.rightAnswer + 20)
+      while (res.length < this.level.variants) {
+        let num = mtRand(this.rightAnswer - this.level.range, this.rightAnswer + this.level.range)
         if (!res.includes(num)) {
           res.push(num)
         }
       }
       // randomize sort
-      return res.sort(() => Math.random() > 0.5 ? 1 : -1 )
+      return res.sort(() => Math.random() > 0.5 ? 1 : -1)
     }
   },
   methods: {
