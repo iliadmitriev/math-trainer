@@ -10,25 +10,25 @@
       </app-progress-bar>
       <transition name="flip" mode="out-in">
         <app-start-screen
-          v-if="state=='start'"
+          v-if="state==='start'"
           @onStart="onStart"
         >
         </app-start-screen>
         <app-question
-          v-else-if="state=='question'"
+          v-else-if="state==='question'"
           :level="levels[level-1]"
           @onSuccess="onQuestionSuccess"
           @onError="onQuestionError"
         >
         </app-question>
         <app-message
-          v-else-if="state=='message'"
+          v-else-if="state==='message'"
           :text="message.text"
           :type="message.type"
           @onNext="onNext"
         ></app-message>
         <app-result-screen
-          v-else-if="state=='result'"
+          v-else-if="state==='result'"
           :stats="stats"
           @repeat="onStart"
           @nextLevel="nextLevel"
