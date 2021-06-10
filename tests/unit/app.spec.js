@@ -4,7 +4,7 @@ import App from "../../src/App.vue";
 describe('App', () => {
   const wrapper = mount(App)
 
-  it('show start screen', () => {
+  it('render root application', () => {
     expect(wrapper.html()).toContain(`Вы готовы начать?`)
   })
 
