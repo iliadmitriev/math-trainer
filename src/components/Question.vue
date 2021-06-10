@@ -7,8 +7,8 @@
         <button class="btn btn-success"
                 v-for="number in answers"
                 @click="onAnswer(number)"
-        >{{ number }}
-        </button>
+                :id="'ans' + number"
+        >{{ number }}</button>
       </div>
     </div>
   </div>
