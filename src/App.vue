@@ -40,6 +40,12 @@
 </template>
 
 <script>
+import ProgressBar from "./components/ProgressBar.vue";
+import StartScreen from "./components/StartScreen.vue";
+import Question from "./components/Question.vue";
+import ResultScreen from "./components/ResultScreen.vue";
+import Message from "./components/Message.vue";
+
 export default {
   name: 'app',
   data() {
@@ -110,6 +116,13 @@ export default {
         this.message.type = 'alert-info'
       }
     }
+  },
+  components: {
+    'app-progress-bar': ProgressBar,
+    'app-start-screen': StartScreen,
+    'app-question': Question,
+    'app-message': Message,
+    'app-result-screen': ResultScreen
   }
 }
 </script>

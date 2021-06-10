@@ -3,6 +3,7 @@
     <div class="alert alert-secondary">
       <h3>Вы готовы начать?</h3>
       <button class="btn btn-success"
+              id="btnStart"
               @click="clickBtnStart"
       >
         Начали
