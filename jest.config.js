@@ -23,7 +23,7 @@ module.exports = {
 
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,vue}', '!**/node_modules/**'],
-  coveragePathIgnorePatterns: [],
+  coveragePathIgnorePatterns: ['src/main.js'],
   coverageThreshold: {
     global: {
       branches: 100,
