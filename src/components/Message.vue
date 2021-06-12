@@ -8,6 +8,7 @@
       <button
         class="btn btn-primary"
         @click="$emit('onNext')"
+        id="btnNext"
       >
         Продолжить
       </button>
