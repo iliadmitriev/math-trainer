@@ -1,7 +1,6 @@
 import {mount} from '@vue/test-utils'
 import App from "../../src/App.vue";
 import StartScreen from "../../src/components/StartScreen.vue";
-import ProgressBar from "../../src/components/ProgressBar.vue";
 import Question from "../../src/components/Question.vue";
 import ResultScreen from "../../src/components/ResultScreen.vue";
 import Message from "../../src/components/Message.vue";
