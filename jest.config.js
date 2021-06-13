@@ -10,6 +10,10 @@ module.exports = {
     'vue'
   ],
 
+  moduleNameMapper: {
+    "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
+  },
+
   modulePathIgnorePatterns: [
     '<rootDir>/build/',
     '<rootDir>/dist/',
@@ -23,7 +27,7 @@ module.exports = {
 
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,vue}', '!**/node_modules/**'],
-  coveragePathIgnorePatterns: ['src/main.js'],
+  coveragePathIgnorePatterns: [],
   coverageThreshold: {
     global: {
       branches: 100,
