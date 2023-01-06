@@ -36,7 +36,7 @@
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",
     "jest-transform-stub": "^2.0.0",
-    "vue-jest": "^3.0.7",
+    "vue-jest": "^4.0.1",
     "vue-loader": "^14.2.4",
     "vue-template-compiler": "^2.4.4",
     "webpack": "^5.70.0",
