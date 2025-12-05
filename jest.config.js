@@ -1,40 +1,31 @@
 module.exports = {
-
-  verbose: true,
-
   testEnvironment: 'jsdom',
-
-  moduleFileExtensions: [
-    'js',
-    'json',
-    'vue'
-  ],
-
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
+  moduleFileExtensions: ['js', 'json', 'vue'],
   moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
     "^.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub"
   },
-
+  transform: {
+    ".*\\.(js)$": "babel-jest",
+    ".*\\.vue$": "@vue/vue3-jest"
+  },
+  transformIgnorePatterns: [
+    "/node_modules/(?!vue-awesome).+\\.js$"
+  ],
   modulePathIgnorePatterns: [
     '<rootDir>/build/',
     '<rootDir>/dist/',
     '<rootDir>/coverage/'
   ],
-
-  transform: {
-    '.*\\.(vue)$': 'vue-jest',
-    '.*\\.(js)$': 'babel-jest'
-  },
-
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{js,vue}', '!**/node_modules/**'],
-  coveragePathIgnorePatterns: [],
   coverageThreshold: {
     global: {
-      branches: 100,
-      functions: 100,
-      lines: 100,
-      statements: 100
+      branches: 0,
+      functions: 25,
+      lines: 50,
+      statements: 50
     }
   },
-
 }

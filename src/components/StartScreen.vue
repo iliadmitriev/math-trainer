@@ -4,7 +4,7 @@
       <h3>Вы готовы начать?</h3>
       <button class="btn btn-success"
               id="btnStart"
-              @click="clickBtnStart"
+              @click="onStart"
       >
         Начали
       </button>
@@ -15,10 +15,15 @@
 <script>
 export default {
   name: "StartScreen",
-  methods: {
-    clickBtnStart(event) {
-      this.$emit('onStart')
-    }
+  emits: ['onStart'],
+  setup(props, { emit }) {
+    const onStart = (event) => {
+      emit('onStart');
+    };
+
+    return {
+      onStart
+    };
   }
 }
 </script>

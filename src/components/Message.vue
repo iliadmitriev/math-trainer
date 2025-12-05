@@ -19,7 +19,8 @@
 <script>
 export default {
   name: "Message",
-  props: ['type', 'text']
+  props: ['type', 'text'],
+  emits: ['onNext']
 }
 </script>
 

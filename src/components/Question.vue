@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { ref, computed, onMounted } from 'vue';
+
 export default {
   name: "Question",
   props: {
@@ -32,42 +34,59 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      x: mtRand(this.level.min, this.level.max),
-      y: mtRand(this.level.min, this.level.max)
-    }
-  },
-  computed: {
-    rightAnswer() {
-      return this.x + this.y
-    },
-    answers() {
-      const res = [this.rightAnswer]
-      while (res.length < this.level.variants) {
-        let num = mtRand(this.rightAnswer - this.level.range, this.rightAnswer + this.level.range)
+  emits: ['onSuccess', 'onError'],
+  setup(props, { emit }) {
+    const x = ref(0);
+    const y = ref(0);
+
+    // Define the helper function
+    const mtRand = (min = 100, max = 200) => {
+      const diff = max - min;
+      return Math.floor(Math.random() * (diff + 1) + min);
+    };
+
+    // Initialize values after setup
+    onMounted(() => {
+      x.value = mtRand(props.level.min, props.level.max);
+      y.value = mtRand(props.level.min, props.level.max);
+    });
+
+    // Calculate initial values immediately
+    x.value = mtRand(props.level.min, props.level.max);
+    y.value = mtRand(props.level.min, props.level.max);
+
+    const rightAnswer = computed(() => {
+      return x.value + y.value;
+    });
+
+    const answers = computed(() => {
+      const res = [rightAnswer.value];
+      while (res.length < props.level.variants) {
+        let num = mtRand(rightAnswer.value - props.level.range, rightAnswer.value + props.level.range);
         if (!res.includes(num)) {
-          res.push(num)
+          res.push(num);
         }
       }
       // randomize sort
-      return res.sort(() => Math.random() > 0.5 ? 1 : -1)
-    }
-  },
-  methods: {
-    onAnswer(number) {
-      if (number == this.rightAnswer) {
-        this.$emit('onSuccess')
-      } else {
-        this.$emit('onError', `${this.x} + ${this.y} = ${this.rightAnswer}!`)
-      }
-    }
-  }
-}
+      return res.sort(() => Math.random() > 0.5 ? 1 : -1);
+    });
 
-function mtRand(min = 100, max = 200) {
-  let diff = max - min;
-  return Math.floor(Math.random() * (diff + 1) + min)
+    const onAnswer = (number) => {
+      if (number == rightAnswer.value) {
+        emit('onSuccess');
+      } else {
+        emit('onError', `${x.value} + ${y.value} = ${rightAnswer.value}!`);
+      }
+    };
+
+    return {
+      x,
+      y,
+      rightAnswer,
+      answers,
+      onAnswer
+    };
+  }
 }
 </script>
 

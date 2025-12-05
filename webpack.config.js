@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { VueLoaderPlugin } = require('vue-loader');
 
 
 module.exports = {
@@ -12,9 +13,9 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
       ? ''
       : '/dist/',
-    filename: '[name].[chunkhash:8].js',
-    sourceMapFilename: '[name].[chunkhash:8].map',
-    chunkFilename: '[id].[chunkhash:8].js'
+    filename: '[name].[contenthash:8].js',
+    sourceMapFilename: '[name].[contenthash:8].map',
+    chunkFilename: '[id].[contenthash:8].js'
   },
   module: {
     rules: [
@@ -26,11 +27,7 @@ module.exports = {
         ],
       }, {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          loaders: {}
-          // other vue-loader options go here
-        }
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
@@ -49,7 +46,7 @@ module.exports = {
   resolve: {
     modules: ['node_modules'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm-bundler.js'
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -91,10 +88,10 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: './index.html',
-      vue: true
+      template: './index.html'
     }),
     new CleanWebpackPlugin({}),
+    new VueLoaderPlugin()
   ]
 }
 
