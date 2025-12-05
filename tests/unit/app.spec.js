@@ -4,17 +4,27 @@ import StartScreen from "../../src/components/StartScreen.vue";
 import ProgressBar from "../../src/components/ProgressBar.vue";
 
 describe('App', () => {
-  const wrapper = mount(App)
+  let wrapper;
 
-  it('render root application', () => {
+  beforeEach(() => {
+    wrapper = mount(App)
+  });
+
+  afterEach(() => {
+    if (wrapper) {
+      wrapper.unmount()
+    }
+  });
+
+  it('renders root application', () => {
     expect(wrapper.html()).toContain(`Вы готовы начать?`)
   })
 
-  it('find component start screen', () => {
+  it('finds component start screen', () => {
     expect(wrapper.findComponent(StartScreen).exists()).toBe(true)
   })
 
-  it('find component progress bar', () => {
+  it('finds component progress bar', () => {
     expect(wrapper.findComponent(ProgressBar).exists()).toBe(true)
   })
 
