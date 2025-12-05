@@ -16,7 +16,6 @@
 export default {
   name: "ProgressBar",
   props: ['progStyle']
-
 }
 </script>
 

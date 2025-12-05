@@ -4,8 +4,9 @@
       <h3>Правильных: {{ stats.success }}</h3>
       <h3>Ошибок: {{ stats.error }}</h3>
       <hr>
-      <button class="btn btn-primary" @click="$emit('repeat')">Повторить</button>
-      <button :disabled="stats.error != 0" v-show="next" class="btn btn-primary" id="nextLevel" @click="$emit('nextLevel')">Следующий уровень</button>
+      <button class="btn btn-primary" @click="onRepeat">Повторить</button>
+      <button :disabled="stats.error != 0" v-show="next" class="btn btn-primary" id="nextLevel"
+        @click="onNextLevel">Следующий уровень</button>
     </div>
   </div>
 </template>
@@ -19,10 +20,23 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  emits: ['repeat', 'nextLevel'],
+  setup(props, { emit }) {
+    const onRepeat = () => {
+      emit('repeat');
+    };
+
+    const onNextLevel = () => {
+      emit('nextLevel');
+    };
+
+    return {
+      onRepeat,
+      onNextLevel
+    };
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

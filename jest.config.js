@@ -21,7 +21,7 @@ module.exports = {
   ],
 
   transform: {
-    '.*\\.(vue)$': 'vue-jest',
+    '.*\\.(vue)$': '@vue/vue3-jest',
     '.*\\.(js)$': 'babel-jest'
   },
 

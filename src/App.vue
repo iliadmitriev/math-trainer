@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue';
 import ProgressBar from "./components/ProgressBar.vue";
 import StartScreen from "./components/StartScreen.vue";
 import Question from "./components/Question.vue";
@@ -48,81 +49,99 @@ import Message from "./components/Message.vue";
 
 export default {
   name: 'app',
-  data() {
-    return {
-      level: 1,
-      levels: [
-        {variants: 4, min: 100, max: 200, maxQuestions: 3, range: 20},
-        {variants: 5, min: 100, max: 400, maxQuestions: 4, range: 20},
-        {variants: 5, min: 100, max: 600, maxQuestions: 5, range: 20},
-        {variants: 6, min: 100, max: 1000, maxQuestions: 6, range: 20}
-      ],
-      state: 'start',
-      stats: {
-        success: 0,
-        error: 0
-      },
-      message: {
-        type: '',
-        text: ''
-      }
-    }
-  },
-  computed: {
-    questDone() {
-      return this.stats.success + this.stats.error
-    },
-    progressStyles () {
-      return {
-        width: Math.round(this.questDone / this.maxLevelQuestions * 100) + '%'
-      }
-    },
-    maxLevelQuestions() {
-      return this.levels[this.level - 1].maxQuestions
-    }
-  },
-  methods: {
-    onStart() {
-      this.state = 'question'
-      this.stats.success = 0
-      this.stats.error = 0
-    },
-    onQuestionSuccess() {
-      this.state = 'message'
-      this.message.text = 'Правильно'
-      this.message.type = 'alert-success'
-      this.stats.success++
-    },
-    onQuestionError(msg) {
-      this.state = 'message'
-      this.message.text = msg
-      this.message.type = 'alert-warning'
-      this.stats.error++
-    },
-    onNext() {
-      if ( this.questDone < this.maxLevelQuestions ) {
-        this.state = 'question'
-      } else {
-        this.state = 'result'
-      }
-    },
-    nextLevel() {
-      if (this.levels.length > this.level) {
-        this.level += 1
-        this.onStart()
-      } else {
-        this.state = 'message'
-        this.message.text = 'Вы победили мой друг'
-        this.message.type = 'alert-info'
-      }
-    }
-  },
   components: {
     'app-progress-bar': ProgressBar,
     'app-start-screen': StartScreen,
     'app-question': Question,
     'app-message': Message,
     'app-result-screen': ResultScreen
+  },
+  setup() {
+    const level = ref(1);
+    const levels = ref([
+      {variants: 4, min: 100, max: 200, maxQuestions: 3, range: 20},
+      {variants: 5, min: 100, max: 400, maxQuestions: 4, range: 20},
+      {variants: 5, min: 100, max: 600, maxQuestions: 5, range: 20},
+      {variants: 6, min: 100, max: 1000, maxQuestions: 6, range: 20}
+    ]);
+    const state = ref('start');
+    const stats = ref({
+      success: 0,
+      error: 0
+    });
+    const message = ref({
+      type: '',
+      text: ''
+    });
+
+    const questDone = computed(() => {
+      return stats.value.success + stats.value.error;
+    });
+
+    const progressStyles = computed(() => {
+      return {
+        width: Math.round(questDone.value / maxLevelQuestions.value * 100) + '%'
+      };
+    });
+
+    const maxLevelQuestions = computed(() => {
+      return levels.value[level.value - 1].maxQuestions;
+    });
+
+    const onStart = () => {
+      state.value = 'question';
+      stats.value.success = 0;
+      stats.value.error = 0;
+    };
+
+    const onQuestionSuccess = () => {
+      state.value = 'message';
+      message.value.text = 'Правильно';
+      message.value.type = 'alert-success';
+      stats.value.success++;
+    };
+
+    const onQuestionError = (msg) => {
+      state.value = 'message';
+      message.value.text = msg;
+      message.value.type = 'alert-warning';
+      stats.value.error++;
+    };
+
+    const onNext = () => {
+      if ( questDone.value < maxLevelQuestions.value ) {
+        state.value = 'question';
+      } else {
+        state.value = 'result';
+      }
+    };
+
+    const nextLevel = () => {
+      if (levels.value.length > level.value) {
+        level.value += 1;
+        onStart();
+      } else {
+        state.value = 'message';
+        message.value.text = 'Вы победили мой друг';
+        message.value.type = 'alert-info';
+      }
+    };
+
+    return {
+      level,
+      levels,
+      state,
+      stats,
+      message,
+      questDone,
+      progressStyles,
+      maxLevelQuestions,
+      onStart,
+      onQuestionSuccess,
+      onQuestionError,
+      onNext,
+      nextLevel
+    };
   }
 }
 </script>
