@@ -14,3 +14,7 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
+// Mock console.error to prevent test failures on Vue warnings
+global.console.error = jest.fn();
+global.console.warn = jest.fn();

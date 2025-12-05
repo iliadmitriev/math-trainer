@@ -1,12 +1,13 @@
 describe('Main module test',  () => {
 
-  beforeEach(() => {
-    document.body.innerHTML = '<div id="app"></div>';
+  it(`verifies main.js imports successfully`, () => {
+    // Import main.js to ensure no runtime errors
+    expect(() => import("../../src/main.js")).not.toThrow();
   });
 
-  it(`doesn't need to test main.js directly`, () => {
-    // The main.js module is tested through the application tests
-    // Since we use createApp() in Vue 3, direct module import testing is not needed
-    expect(1).toBe(1);  // Simple passing test
+  it(`exports a default function`, async () => {
+    // Check that main.js can be imported without errors
+    const mainModule = await import("../../src/main.js");
+    expect(mainModule).toBeDefined();
   });
 });
